@@ -1,38 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  let [seconds, setSeconds] = useState(0);
-  let [oneDigitSeconds, setOneDigitSeconds] = useState(true);
-  let [mins, setMins] = useState(0);
-  let [oneDigitMins, setOneDigitMins] = useState(true);
-  let [hours, setHours] = useState(0);
-  let [oneDigitHours, setOneDigitHours] = useState(true);
+  let [seconds, setSeconds] = useState("00");
+  let [mins, setMins] = useState("00");
+  let [hours, setHours] = useState("00");
   let [timer, setTimer] = useState(null);
   let [pauseDisplay, setPauseDisplay] = useState(false);
+  let [numberOfLaps, setNumberOfLaps] = useState(0);
+  let [laps, setLaps] = useState([]);
 
   function startTimer() {
     setPauseDisplay(true);
     setTimer(
       (timer = setInterval(() => {
-        setSeconds((seconds += 1));
-        if (seconds > 9 && seconds < 59) {
-          setOneDigitSeconds(false);
-        } else if (seconds > 59) {
-          setMins((mins += 1));
-          setSeconds((seconds = 0));
-          setOneDigitSeconds(true);
-          if (mins > 9 && mins < 59) {
-            setOneDigitMins(false);
-          } else if (mins > 59) {
-            setHours((hours += 1));
-            setMins((mins = 0));
-            setOneDigitMins(true);
-            if (hours > 9 && hours < 59) {
-              setOneDigitHours(false);
-            }
-          }
+        setSeconds((seconds) =>
+          parseInt(seconds) >= 9
+            ? parseInt(seconds) + 1
+            : `0${parseInt(seconds) + 1}`
+        );
+        if (seconds > 59) {
+          setSeconds((seconds = "00"));
+          setMins((mins) =>
+            parseInt(mins) >= 9 ? parseInt(mins) + 1 : `0${parseInt(mins) + 1}`
+          );
         }
-      }, 1))
+        console.log(seconds);
+      }, 20))
     );
   }
 
@@ -52,7 +45,14 @@ function App() {
     setOneDigitHours(true);
   }
 
-  const laps = [];
+  function addLap() {
+    setNumberOfLaps((numberOfLaps += 1));
+    laps.push({
+      number: { numberOfLaps },
+      time: `${hours}:${mins}:${seconds}`,
+    });
+    console.log(laps);
+  }
 
   return (
     <div id="root">
@@ -61,20 +61,26 @@ function App() {
       </div>
       <div id="time">
         <div id="display">
-          {oneDigitHours && 0}
-          {hours}:{oneDigitMins && 0}
-          {mins}:{oneDigitSeconds && 0}
-          {seconds}
+          {hours}:{mins}:{seconds}
         </div>
         <div id="controls">
           {pauseDisplay && <button onClick={stopTimer}>■</button>}
           {!pauseDisplay && <button onClick={startTimer}>▶</button>}
           <button onClick={restartTimer}>⟳</button>
-          <button>LAP</button>
+          <button onClick={addLap}>LAP</button>
           <button>CLEAR LAPS</button>
         </div>
       </div>
-      <table id="laps"></table>
+      <table>
+        <thead>
+          <tr>
+            <th>LAP</th>
+            <th>TIME</th>
+            <th>INTERVAL</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   );
 }
