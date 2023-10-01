@@ -1,31 +1,41 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  let [seconds, setSeconds] = useState("00");
-  let [mins, setMins] = useState("00");
-  let [hours, setHours] = useState("00");
+  let [seconds, setSeconds] = useState(0);
+  let [oneDigitSeconds, setOneDigitSeconds] = useState(true);
+  let [mins, setMins] = useState(0);
+  let [oneDigitMins, setOneDigitMins] = useState(true);
+  let [hours, setHours] = useState(0);
+  let [oneDigitHours, setOneDigitHours] = useState(true);
   let [timer, setTimer] = useState(null);
   let [pauseDisplay, setPauseDisplay] = useState(false);
   let [numberOfLaps, setNumberOfLaps] = useState(0);
   let [laps, setLaps] = useState([]);
+  let [lapTimes, setLapTimes] = useState([]);
 
   function startTimer() {
     setPauseDisplay(true);
     setTimer(
       (timer = setInterval(() => {
-        setSeconds((seconds) =>
-          parseInt(seconds) >= 9
-            ? parseInt(seconds) + 1
-            : `0${parseInt(seconds) + 1}`
-        );
-        if (seconds > 59) {
-          setSeconds((seconds = "00"));
-          setMins((mins) =>
-            parseInt(mins) >= 9 ? parseInt(mins) + 1 : `0${parseInt(mins) + 1}`
-          );
+        setSeconds((seconds += 1));
+        if (seconds > 9 && seconds < 59) {
+          setOneDigitSeconds(false);
+        } else if (seconds > 59) {
+          setMins((mins += 1));
+          setSeconds((seconds = 0));
+          setOneDigitSeconds(true);
+          if (mins > 9 && mins < 59) {
+            setOneDigitMins(false);
+          } else if (mins > 59) {
+            setHours((hours += 1));
+            setMins((mins = 0));
+            setOneDigitMins(true);
+            if (hours > 9 && hours < 59) {
+              setOneDigitHours(false);
+            }
+          }
         }
-        console.log(seconds);
-      }, 20))
+      }, 1))
     );
   }
 
@@ -45,12 +55,49 @@ function App() {
     setOneDigitHours(true);
   }
 
+  function intervalCalc(lapTimePrev, lapTimeCurr) {
+    let prevSeconds =
+      lapTimePrev.hours * 3600 + lapTimePrev.mins * 60 + lapTimePrev.seconds;
+    let currentSeconds =
+      lapTimeCurr.hours * 3600 + lapTimeCurr.mins * 60 + lapTimeCurr.seconds;
+    let newTotalSeconds = currentSeconds - prevSeconds;
+    let newHours = Math.floor(newTotalSeconds / 3600);
+    newTotalSeconds -= newHours * 3600;
+    let newMins = Math.floor(newTotalSeconds / 60);
+    newTotalSeconds -= newMins * 60;
+    let newSeconds = Math.floor(newTotalSeconds);
+    return `${
+      newHours > 9 ? `${Math.floor(newHours)}` : `0${Math.floor(newHours)}`
+    }:${newMins > 9 ? `${Math.floor(newMins)}` : `0${Math.floor(newMins)}`}:${
+      newSeconds > 9
+        ? `${Math.floor(newSeconds)}`
+        : `0${Math.floor(newSeconds)}`
+    }`;
+  }
+
   function addLap() {
     setNumberOfLaps((numberOfLaps += 1));
-    laps.push({
-      number: { numberOfLaps },
-      time: `${hours}:${mins}:${seconds}`,
-    });
+    lapTimes.push({ hours, mins, seconds });
+    if (numberOfLaps === 1) {
+      laps.push({
+        number: numberOfLaps,
+        time: `${hours > 9 ? `${hours}` : `0${hours}`}:${
+          mins > 9 ? `${mins}` : `0${mins}`
+        }:${seconds > 9 ? `${seconds}` : `0${seconds}`}`,
+        interval: this,
+      });
+    } else {
+      laps.push({
+        number: numberOfLaps,
+        time: `${hours > 9 ? `${hours}` : `0${hours}`}:${
+          mins > 9 ? `${mins}` : `0${mins}`
+        }:${seconds > 9 ? `${seconds}` : `0${seconds}`}`,
+        interval: intervalCalc(
+          lapTimes[lapTimes.length - 2],
+          lapTimes[lapTimes.length - 1]
+        ),
+      });
+    }
     console.log(laps);
   }
 
@@ -61,7 +108,10 @@ function App() {
       </div>
       <div id="time">
         <div id="display">
-          {hours}:{mins}:{seconds}
+          {oneDigitHours && 0}
+          {hours}:{oneDigitMins && 0}
+          {mins}:{oneDigitSeconds && 0}
+          {seconds}
         </div>
         <div id="controls">
           {pauseDisplay && <button onClick={stopTimer}>■</button>}
@@ -71,16 +121,7 @@ function App() {
           <button>CLEAR LAPS</button>
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>LAP</th>
-            <th>TIME</th>
-            <th>INTERVAL</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <table id="laps"></table>
     </div>
   );
 }
