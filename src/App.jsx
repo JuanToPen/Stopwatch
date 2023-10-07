@@ -12,6 +12,7 @@ function App() {
   let [numberOfLaps, setNumberOfLaps] = useState(0);
   let [laps, setLaps] = useState([]);
   let [lapTimes, setLapTimes] = useState([]);
+  let [lapsDisplay, setLapsDisplay] = useState(false);
 
   function startTimer() {
     setPauseDisplay(true);
@@ -53,6 +54,7 @@ function App() {
     setOneDigitMins(true);
     setHours((hours = 0));
     setOneDigitHours(true);
+    clearLaps();
   }
 
   function intervalCalc(lapTimePrev, lapTimeCurr) {
@@ -66,25 +68,23 @@ function App() {
     let newMins = Math.floor(newTotalSeconds / 60);
     newTotalSeconds -= newMins * 60;
     let newSeconds = Math.floor(newTotalSeconds);
-    return `${
-      newHours > 9 ? `${Math.floor(newHours)}` : `0${Math.floor(newHours)}`
-    }:${newMins > 9 ? `${Math.floor(newMins)}` : `0${Math.floor(newMins)}`}:${
-      newSeconds > 9
-        ? `${Math.floor(newSeconds)}`
-        : `0${Math.floor(newSeconds)}`
-    }`;
+    return `${newHours > 9 ? `${newHours}` : `0${newHours}`}:${
+      newMins > 9 ? `${newMins}` : `0${newMins}`
+    }:${newSeconds > 9 ? `${newSeconds}` : `0${newSeconds}`}`;
   }
 
   function addLap() {
+    setLapsDisplay(true);
     setNumberOfLaps((numberOfLaps += 1));
     lapTimes.push({ hours, mins, seconds });
     if (numberOfLaps === 1) {
+      let firstIntervalTime = `${hours > 9 ? `${hours}` : `0${hours}`}:${
+        mins > 9 ? `${mins}` : `0${mins}`
+      }:${seconds > 9 ? `${seconds}` : `0${seconds}`}`;
       laps.push({
         number: numberOfLaps,
-        time: `${hours > 9 ? `${hours}` : `0${hours}`}:${
-          mins > 9 ? `${mins}` : `0${mins}`
-        }:${seconds > 9 ? `${seconds}` : `0${seconds}`}`,
-        interval: this,
+        time: firstIntervalTime,
+        interval: firstIntervalTime,
       });
     } else {
       laps.push({
@@ -99,6 +99,12 @@ function App() {
       });
     }
     console.log(laps);
+  }
+
+  function clearLaps() {
+    setLapsDisplay(false);
+    setNumberOfLaps((numberOfLaps = 0));
+    setLaps((laps = []));
   }
 
   return (
@@ -118,10 +124,29 @@ function App() {
           {!pauseDisplay && <button onClick={startTimer}>▶</button>}
           <button onClick={restartTimer}>⟳</button>
           <button onClick={addLap}>LAP</button>
-          <button>CLEAR LAPS</button>
+          <button onClick={clearLaps}>CLEAR LAPS</button>
         </div>
       </div>
-      <table id="laps"></table>
+      <table id="laps">
+        {lapsDisplay && (
+          <thead>
+            <tr>
+              <th>LAPS</th>
+              <th>TIME</th>
+              <th>INTERVAL</th>
+            </tr>
+          </thead>
+        )}
+        <tbody>
+          {laps.map((lap) => (
+            <tr>
+              <td>{lap.number}</td>
+              <td>{lap.time}</td>
+              <td>{lap.interval}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

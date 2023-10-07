@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito&display=swap');
+
 *{
+  font-family: 'Gabarito', cursive;
   margin: 0;
   padding: 0;
 }
 
 #root{
-  background-color: var(--dark-mode, rgb(221, 36, 36));
+  background-color: var(--dark-mode, rgb(255, 0, 0));
   height: 100vh;
   width: 100%;
   display: flex;
@@ -18,11 +22,14 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 3vh;
+  max-width: 80%;
 }
 
 #display{
+  font-family: 'Martian Mono', monospace;
   margin-top: 2vh;
-  font-size: 7rem;
+  font-size: 6rem;
+  transition: font-size 0.5s ease;
   display: flex;
   justify-content: center;
 }
@@ -35,7 +42,11 @@
 }
 
 #controls button{
+  font-size: 1.3rem;
   margin:0 0.5vw;
+  border-radius: 50%;
+  padding:2vh 20px;
+  transition: font-size 0.5s ease;
 }
 
 #lightAndDark{
@@ -58,11 +69,31 @@
 table{
   margin: 5vh 5vw;
   background-color: white;
-  border-style: solid;
-  border-color: black;
-  display: none;
 }
 
 table th{
+  font-size: 1.3rem;
   width: 33.3333%;
+}
+
+table td{
+  text-align: center;
+}
+
+@media (max-width:600px) {
+  #display{
+    font-size: 4rem;
+    transition: font-size 0.5s ease;
+  }
+}
+
+@media (max-width:400px) {
+  #display{
+    font-size: 2.5rem;
+    transition: font-size 0.5s ease;
+  }
+  #controls button{
+    font-size: 1rem;
+    transition: font-size 0.5s ease;
+  }
 }
