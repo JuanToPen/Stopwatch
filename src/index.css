@@ -8,7 +8,7 @@
 }
 
 #root{
-  background-color: var(--dark-mode, rgb(255, 255, 255));
+  background-color: var(--night-mode, rgb(255, 255, 255));
   height: 100vh;
   width: 100%;
   display: flex;
@@ -25,6 +25,7 @@
 }
 
 #display{
+  color: var(--light-mode, rgb(0, 0, 0));
   font-family: 'Martian Mono', monospace;
   margin-top: 2vh;
   font-size: 6rem;
@@ -41,8 +42,8 @@
 }
 
 #controls button{
-  background-color: black;
-  color: white;
+  background-color: var(--light-mode, rgb(0, 0, 0));
+  color: var(--night-mode, rgb(255, 255, 255));
   border-style: none;
   font-size: 1.5rem;
   margin:0 1.5vw;
@@ -61,34 +62,46 @@
   transition: transform 0.1s ease;
 }
 
-#lightAndDark{
+#toggle{
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--night-mode, rgb(255, 255, 255));
   align-self: flex-end;
-  background-color: blue;
-  width: 70px;
-  padding: 0.5vw 0.5vw;
-  border-radius: 1em;
-  margin-right: 1vw;
+  background-color: var(--light-mode, rgb(0, 0, 0));
+  min-width: 70px;
+  min-height: 25px;
+  border-radius: 70px;
+  padding: 3px 5px;
+  margin-right: 2vw;
   margin-top: 3vh;
+  transition: 0.5 ease;
 }
 
-#toggle{
-  width: 30%;
+#toggle button{
+  background-color: var(--night-mode, rgb(255, 255, 255));
+  width: 35%;
   height: 100%;
   border-radius: 50%;
   border-style: none;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+#toggle .active{
+  transform: translateX(45px);
 }
 
 table{
   margin: 5vh 5vw 0 5vw;
-  background-color: white;
+  background-color: var(--night-mode, rgb(255, 255, 255));
 }
 
 table th{
-  background-color: black;
-  color: white;
+  background-color: var(--light-mode, rgb(0, 0, 0));
+  color: var(--night-mode, rgb(255, 255, 255));
   margin-left: 2vw;
   text-align: left;
-  border: solid 2px black;
+  border: solid 2px var(--light-mode, rgb(0, 0, 0));
   padding: 1.2vh;
   font-size: 1.8rem;
   width: 33.3333%;
@@ -99,8 +112,9 @@ table{
 }
 
 table td{
-  border-left: solid black 2px;
-  border-right:solid black 2px;
+  color:var(--light-mode, rgb(0, 0, 0));
+  border-left: solid var(--light-mode, rgb(0, 0, 0)) 2px;
+  border-right:solid var(--light-mode, rgb(0, 0, 0)) 2px;
   margin-left: 2vw;
   text-align: left;
   padding: 1vh;
@@ -108,18 +122,22 @@ table td{
 }
 
 table tbody tr:nth-of-type(even){
-  background-color: rgb(230, 230, 230);
+  background-color: var(--gray-mode, rgb(230, 230, 230));
+}
+
+table tbody tr:nth-of-type(odd){
+  background-color: var(--night-mode, rgb(255, 255, 255));
 }
 
 table tbody tr:last-child{
-  border-bottom: solid black 2px;
+  border-bottom: solid var(--light-mode, rgb(0, 0, 0)) 2px;
 }
 
 #space{
   width: 100%;
   height:1px;
-  background-color: rgb(255, 255, 255);
-  color: white;
+  background-color: var(--night-mode, rgb(255, 255, 255));
+  color: var(--night-mode, rgb(255, 255, 255));
 }
 
 @media (max-width:600px) {

@@ -13,6 +13,7 @@ function App() {
   let [laps, setLaps] = useState([]);
   let [lapTimes, setLapTimes] = useState([]);
   let [lapsDisplay, setLapsDisplay] = useState(false);
+  let [darkMode, setDarkMode] = useState(false);
 
   function startTimer() {
     setPauseDisplay(true);
@@ -108,9 +109,25 @@ function App() {
   }
 
   return (
-    <div id="root">
-      <div id="lightAndDark">
-        <button id="toggle"></button>
+    <div
+      id="root"
+      style={
+        darkMode
+          ? {
+              "--night-mode": "black",
+              "--light-mode": "white",
+              "--gray-mode": "rgb(25,25,25)",
+            }
+          : {}
+      }
+    >
+      <div id="toggle">
+        <button
+          onClick={() => {
+            setDarkMode(!darkMode);
+          }}
+          className={darkMode ? "active" : ""}
+        ></button>
       </div>
       <div id="time">
         <div id="display">
@@ -128,8 +145,20 @@ function App() {
                 height="24"
                 viewBox="0 0 24 24"
               >
-                <rect x="3" y="8" width="5" height="16" fill="white" />
-                <rect x="15" y="8" width="5" height="16" fill="white" />
+                <rect
+                  x="3"
+                  y="8"
+                  width="5"
+                  height="16"
+                  fill={darkMode ? "black" : "white"}
+                />
+                <rect
+                  x="15"
+                  y="8"
+                  width="5"
+                  height="16"
+                  fill={darkMode ? "black" : "white"}
+                />
               </svg>
             </button>
           )}
@@ -145,7 +174,7 @@ function App() {
             >
               <path
                 d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"
-                fill="white"
+                fill={darkMode ? "black" : "white"}
               />
             </svg>
           </button>
