@@ -110,7 +110,7 @@ function App() {
 
   return (
     <div
-      id="root"
+      id="container"
       style={
         darkMode
           ? {
