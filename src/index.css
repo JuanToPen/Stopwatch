@@ -9,13 +9,11 @@
 
 body{
   background-color: var(--night-mode, rgb(255, 255, 255));
-}
-
-#container{
   height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.5s ease;
 }
 
 #time{
@@ -33,6 +31,7 @@ body{
   margin-top: 2vh;
   font-size: 6rem;
   transition: font-size 0.5s ease;
+  transition: color 0.5s ease;
   display: flex;
   justify-content: center;
 }
@@ -46,6 +45,7 @@ body{
 
 #controls button{
   background-color: var(--light-mode, rgb(0, 0, 0));
+  transition: .5 ease;
   color: var(--night-mode, rgb(255, 255, 255));
   border-style: none;
   font-size: 1.5rem;
@@ -53,7 +53,7 @@ body{
   border-radius: 50%;
   padding: 1.5vh 0;
   min-width: 50px;
-  transition: font-size 0.5s ease;
+  transition: background-color 0.5s ease;
 }
 
 #controls button:hover{
@@ -66,24 +66,20 @@ body{
 }
 
 #toggle{
-  border-style: solid;
-  border-width: 2px;
-  border-color: var(--night-mode, rgb(255, 255, 255));
-  align-self: flex-end;
   background-color: var(--light-mode, rgb(0, 0, 0));
-  min-width: 70px;
+  max-width: 80px;
   min-height: 25px;
   border-radius: 70px;
-  padding: 3px 5px;
-  margin-right: 2vw;
-  margin-top: 3vh;
-  transition: 0.5 ease;
+  padding: 3px 5px 1px 5px;
+  margin-left: 1vw;
+  margin-top: 2vh;
+  transition: background-color 0.5s ease;
 }
 
 #toggle button{
   background-color: var(--night-mode, rgb(255, 255, 255));
-  width: 35%;
-  height: 100%;
+  width: 34%;
+  height: 25px;
   border-radius: 50%;
   border-style: none;
   transition: 0.5s ease;
@@ -91,12 +87,14 @@ body{
 }
 
 #toggle .active{
-  transform: translateX(45px);
+  transform: translateX(53px);
 }
 
 table{
-  margin: 5vh 5vw 0 5vw;
+  margin: 5vh auto;
+  width: 90%;
   background-color: var(--night-mode, rgb(255, 255, 255));
+  transition: background-color 0.5s ease;
 }
 
 table th{
@@ -108,6 +106,8 @@ table th{
   padding: 1.2vh;
   font-size: 1.8rem;
   width: 33.3333%;
+  transition: background-color 0.5s ease;
+  transition: color 0.5s ease;
 }
 
 table{
@@ -122,26 +122,22 @@ table td{
   text-align: left;
   padding: 1vh;
   font-size: 1.2rem;
+  transition: color 0.5s ease;
 }
 
 table tbody tr:nth-of-type(even){
   background-color: var(--gray-mode, rgb(230, 230, 230));
+  transition: background-color 0.5s ease;
 }
 
 table tbody tr:nth-of-type(odd){
   background-color: var(--night-mode, rgb(255, 255, 255));
+  transition: background-color 0.5s ease;
 }
 
 table tbody tr:last-child{
   border-bottom: solid var(--light-mode, rgb(0, 0, 0)) 2px;
-}
-
-#space{
-  width: 100%;
-  height:1px;
-  background-color: var(--night-mode, rgb(255, 255, 255));
-  color: var(--night-mode, rgb(255, 255, 255));
-  margin-top: 100vh;
+  transition: border-bottom 0.5s ease;
 }
 
 @media (max-width:600px) {

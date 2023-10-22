@@ -108,19 +108,26 @@ function App() {
     setLaps((laps = []));
   }
 
+  function backgroundDark() {
+    let bg = document.querySelector("body");
+    bg.style.setProperty("--night-mode", "black");
+    bg.style.setProperty("--light-mode", "white"),
+      bg.style.setProperty("--gray-mode", "rgb(25,25,25)");
+  }
+
+  function backgroundLight() {
+    let bg = document.querySelector("body");
+    bg.style.removeProperty("--night-mode", "black");
+    bg.style.removeProperty("--light-mode", "white"),
+      bg.style.removeProperty("--gray-mode", "rgb(25,25,25)");
+  }
+
+  useEffect(() => {
+    darkMode ? backgroundDark() : backgroundLight();
+  }, [darkMode]);
+
   return (
-    <div
-      id="container"
-      style={
-        darkMode
-          ? {
-              "--night-mode": "black",
-              "--light-mode": "white",
-              "--gray-mode": "rgb(25,25,25)",
-            }
-          : {}
-      }
-    >
+    <div id="container">
       <div id="toggle">
         <button
           onClick={() => {
@@ -200,7 +207,6 @@ function App() {
           ))}
         </tbody>
       </table>
-      <div id="space">.</div>
     </div>
   );
 }
