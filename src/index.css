@@ -52,7 +52,7 @@ body{
   margin:0 1.5vw;
   border-radius: 50%;
   padding: 1.5vh 0;
-  min-width: 50px;
+  width: 50px;
   transition: background-color 0.5s ease;
 }
 
@@ -67,8 +67,7 @@ body{
 
 #toggle{
   background-color: var(--light-mode, rgb(0, 0, 0));
-  max-width: 80px;
-  min-height: 25px;
+  width: 80px;
   border-radius: 70px;
   padding: 3px 5px 1px 5px;
   margin-left: 1vw;
@@ -148,13 +147,26 @@ table tbody tr:last-child{
   #controls button{
     font-size: 1rem;
     transition: font-size 0.5s ease;
-    min-width: 40px;
+    border-radius: 5%;
+    padding: 1vh 0;
+    width: 40px;
+    margin:0 3vw;
   }
 }
 
 @media (max-width:400px) {
   #display{
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     transition: font-size 0.5s ease;
+  }
+  #toggle{
+    padding: 4px 5px 1px 5px;
+    width: 50px;
+  }
+  #toggle button{
+    height: 15px;
+  }
+  #toggle .active{
+    transform: translateX(34px);
   }
 }
